@@ -48,7 +48,11 @@
   /* Nav */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    background: rgba(7, 43, 84, 0.97);
+    /* Uses --navy-2 (the darker anchor of the hero's gradient), not --navy —
+       the hero gradient only ever darkens from navy toward navy-2 as it goes
+       down the page, so a nav pinned to the darker end is guaranteed to read
+       at or below the hero's luminance at every scroll position, never above it. */
+    background: rgba(5, 29, 58, 0.97);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
