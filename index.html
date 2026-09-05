@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>McKey Chiropractic Clinic — Demo</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="32x32" href="public/images/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="public/images/favicon-16.png" />
+<link rel="apple-touch-icon" href="public/images/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16181c;
+    --paper: #FFFFFF;
+    --paper-warm: #F2F5F9;
+    --accent: #0B4F9E;
+    --accent-soft: rgba(11,79,158,0.10);
+    --navy: #072B54;
+    --navy-2: #051d3a;
+    --muted: #5B6270;
+    --border: #E3E8EF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+  h1, h2, h3, .serif { font-family: 'Lora', Georgia, serif; }
+
+  /* dot grid backdrop, used behind hero + final CTA */
+  .dot-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+    background: rgba(7, 43, 84, 0.94);
+    backdrop-filter: blur(18px) saturate(105%);
+    -webkit-backdrop-filter: blur(18px) saturate(105%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 78px; gap: 20px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { height: 38px; width: 38px; border-radius: 50%; display: block; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.22; }
+  .brand-text .name { color: #fff; font-weight: 700; font-size: 14.5px; letter-spacing: 0.01em; }
+  .brand-text .sub { color: rgba(255,255,255,0.58); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.13em; }
+  .nav-links { display: flex; gap: 30px; font-size: 13px; font-weight: 500; }
+  .nav-links a { color: rgba(255,255,255,0.80); transition: color .15s ease; }
+  .nav-links a:hover { color: #fff; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    font-weight: 600; font-size: 13.5px;
+    padding: 12px 24px; border-radius: 999px;
+    border: 1.5px solid var(--accent); cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(11,79,158,0.35); }
+  .btn-sm { padding: 10px 20px; font-size: 12.5px; }
+  .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.55); }
+  .btn-outline:hover { border-color: #fff; box-shadow: none; background: rgba(255,255,255,0.08); }
+  .btn-dark { background: var(--navy); color: #fff; border: 1.5px solid var(--navy); }
+  .btn-dark:hover { background: var(--navy-2); box-shadow: 0 10px 24px rgba(0,0,0,0.25); }
+
+  /* Hero — solid navy + dot grid, no photo (none exist to use honestly) */
+  header.hero {
+    position: relative; overflow: hidden;
+    min-height: 92vh; display: flex; align-items: center;
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%);
+    padding-top: 78px;
+  }
+  .hero-inner { position: relative; z-index: 2; width: 100%; padding: 64px 0; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 50px; align-items: center; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #fff; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.28);
+    padding: 7px 16px; border-radius: 999px; margin-bottom: 26px;
+  }
+  h1.hero-h1 {
+    font-size: 48px; font-weight: 600; color: #fff;
+    line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.01em; max-width: 620px;
+  }
+  header.hero p.sub { font-size: 16.5px; color: rgba(255,255,255,0.82); max-width: 480px; margin-bottom: 34px; line-height: 1.75; }
+  .cta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hero-fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px; }
+  .hero-fact-chip {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.92);
+    font-size: 12.5px; font-weight: 600; padding: 9px 16px; border-radius: 999px;
+  }
+
+  /* Hero visual: icon panel instead of a photo */
+  .hero-visual {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 24px; padding: 40px 32px; text-align: center;
+  }
+  .hero-visual .mark-lg { width: 96px; height: 96px; margin: 0 auto 22px; border-radius: 50%; }
+  .hero-visual h3 { color: #fff; font-size: 20px; margin-bottom: 10px; }
+  .hero-visual p { color: rgba(255,255,255,0.68); font-size: 13.5px; line-height: 1.7; margin-bottom: 22px; }
+  .hero-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .hero-stat { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.14); border-radius: 14px; padding: 16px 10px; }
+  .hero-stat .num { font-family: 'Lora', serif; font-weight: 700; font-size: 22px; color: #fff; }
+  .hero-stat .label { font-size: 10.5px; color: rgba(255,255,255,0.6); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+
+  section { padding: 92px 0; }
+  section.tint { background: var(--paper-warm); }
+  section.dark { background: var(--navy); color: #fff; }
+
+  .section-head { max-width: 640px; margin: 0 auto 52px; text-align: center; }
+  .section-head .kicker { color: var(--accent); font-weight: 700; font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px; display: block; }
+  .section-head h2 { font-size: 32px; font-weight: 600; margin-bottom: 14px; letter-spacing: -0.01em; }
+  .section-head p { color: var(--muted); font-size: 15.5px; line-height: 1.8; }
+  section.dark .section-head p { color: rgba(255,255,255,0.68); }
+  section.dark .section-head .kicker { color: #9dc0ea; }
+
+  /* Services grid */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .service-item {
+    background: var(--paper); border: 1px solid var(--border); border-radius: 18px;
+    padding: 34px 26px; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .service-item:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(7,43,84,0.10); }
+  .service-item .icon-circle {
+    width: 52px; height: 52px; border-radius: 14px; background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+  }
+  .service-item .icon-circle svg { width: 24px; height: 24px; color: var(--accent); }
+  .service-item h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .service-item p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: center; }
+  .about-visual {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%);
+    border-radius: 20px; padding: 46px 30px; text-align: center;
+    box-shadow: 0 24px 50px rgba(7,43,84,0.18);
+  }
+  .about-visual img { width: 108px; height: 108px; border-radius: 50%; margin: 0 auto 20px; display: block; }
+  .about-visual .doc-name { color: #fff; font-family: 'Lora', serif; font-weight: 600; font-size: 19px; margin-bottom: 4px; }
+  .about-visual .doc-role { color: #9dc0ea; font-size: 12.5px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; }
+  .about-text .credential {
+    display: inline-block; background: var(--accent-soft); color: var(--accent);
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; padding: 7px 16px; border-radius: 999px; margin-bottom: 18px;
+  }
+  .about-text h2 { font-size: 29px; margin-bottom: 18px; }
+  .about-text p { color: var(--muted); font-size: 15.5px; line-height: 1.9; margin-bottom: 16px; }
+  .about-text strong { color: var(--ink); }
+  .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .fact-chip { background: var(--paper); border: 1px solid var(--border); color: var(--ink); font-size: 12.5px; font-weight: 600; padding: 9px 16px; border-radius: 999px; }
+
+  /* Quote / trust band */
+  .quote-band { background: var(--paper-warm); text-align: center; }
+  .quote-band p { font-family: 'Lora', serif; font-style: italic; font-size: 22px; font-weight: 500; max-width: 720px; margin: 0 auto; line-height: 1.6; color: var(--ink); }
+  .quote-band .rec { margin-top: 20px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); font-family: 'Inter', sans-serif; }
+
+  /* Final CTA */
+  .final-cta { position: relative; overflow: hidden; text-align: center; background: linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 100%); color: #fff; }
+  .final-cta .wrap { position: relative; z-index: 2; }
+  .final-cta h2 { font-size: 32px; margin-bottom: 16px; }
+  .final-cta p { color: rgba(255,255,255,0.72); font-size: 15.5px; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .final-cta .cta-row { justify-content: center; }
+
+  /* Contact */
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .info-card { background: var(--paper); border: 1px solid var(--border); border-radius: 16px; padding: 30px; text-align: center; }
+  .info-card h3 { font-size: 11.5px; font-weight: 700; margin-bottom: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; }
+  .info-card p { color: var(--ink); font-size: 14.5px; line-height: 1.85; }
+  .info-card p a { color: var(--ink); font-weight: 600; border-bottom: 1px solid var(--border); }
+
+  footer { padding: 46px 0; background: var(--navy-2); }
+  footer .wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  footer img { height: 34px; width: 34px; border-radius: 50%; margin-bottom: 16px; }
+  footer p { color: rgba(255,255,255,0.5); font-size: 12.5px; }
+  footer .biz-name { color: var(--paper); font-weight: 700; font-size: 14.5px; margin-bottom: 4px; font-family: 'Lora', serif; }
+  footer a.solv { color: #9dc0ea; font-weight: 700; text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .about-grid, .info-grid { grid-template-columns: 1fr; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    h1.hero-h1 { font-size: 30px; }
+    header.hero { min-height: auto; padding-bottom: 60px; }
+    .section-head h2 { font-size: 25px; }
+    .quote-band p { font-size: 18px; }
+    .about-grid { text-align: center; }
+    .about-visual { max-width: 320px; margin: 0 auto; }
+    .brand-text .sub { display: none; }
+    .hero-visual { margin-top: 10px; }
+  }
+
+  #chat-launcher {
+    position: fixed; bottom: 24px; right: 24px; z-index: 70;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--accent); border: none;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 10px 28px rgba(11,79,158,0.45);
+    transition: transform .15s ease;
+  }
+  #chat-launcher:hover { transform: scale(1.06); }
+  #chat-launcher svg { width: 26px; height: 26px; color: #fff; }
+  #chat-panel {
+    position: fixed; bottom: 96px; right: 24px; z-index: 70;
+    width: 356px; max-width: calc(100vw - 32px); height: 470px; max-height: calc(100vh - 140px);
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--border); border-radius: 20px;
+    display: none; flex-direction: column; overflow: hidden;
+    box-shadow: 0 24px 64px rgba(7,43,84,0.28);
+  }
+  #chat-panel.open { display: flex; }
+  #chat-panel .chat-head { padding: 16px 18px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 10px; background: var(--navy); color: #fff; }
+  #chat-panel .chat-head img { height: 22px; width: 22px; border-radius: 50%; }
+  #chat-panel .chat-head .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+  #chat-panel .chat-head span { font-weight: 700; font-size: 14px; flex: 1; }
+  #chat-close { background: none; border: none; color: rgba(255,255,255,0.75); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; }
+  #chat-close:hover { color: #fff; }
+  #chat-body { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .bubble { max-width: 88%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; }
+  .bubble.bot { background: var(--paper-warm); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; }
+  .bubble.user { background: var(--navy); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .bubble a { color: var(--accent); text-decoration: underline; font-weight: 600; }
+  .bubble.user a { color: #9dc0ea; }
+  #chat-form { display: flex; gap: 8px; padding: 14px; border-top: 1px solid var(--border); background: rgba(255,255,255,0.6); }
+  #chat-input { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; color: var(--ink); font-size: 13.5px; font-family: inherit; }
+  #chat-input:focus { outline: none; border-color: var(--accent); }
+  #chat-send { background: var(--accent); color: #fff; border: none; border-radius: 10px; width: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <img src="public/images/logo-rounded.png" alt="McKey Chiropractic Clinic" />
+      <div class="brand-text">
+        <span class="name">McKey Chiropractic</span>
+        <span class="sub">Craig, Colorado</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="tel:+19708244444" class="btn btn-sm">Call (970) 824-4444</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="dot-grid"></div>
+  <div class="hero-inner">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Locally Owned &amp; Operated &middot; Craig, CO</div>
+        <h1 class="hero-h1">Chiropractic Care for Craig &amp; Steamboat Springs</h1>
+        <p class="sub">McKey Chiropractic Clinic has served the Craig&ndash;Steamboat Springs communities for decades under Dr. Noel &ldquo;Kirk&rdquo; McKey, DC &mdash; spinal adjustment, chiropractic therapy, and on-site DOT physicals and drug &amp; alcohol testing for local businesses.</p>
+        <div class="cta-row">
+          <a href="tel:+19708244444" class="btn">Call to Schedule</a>
+          <a href="javascript:void(0)" onclick="toggleChat()" class="btn btn-outline">Ask a Quick Question</a>
+        </div>
+        <div class="hero-fact-row">
+          <span class="hero-fact-chip">In Practice Since 1976</span>
+          <span class="hero-fact-chip">Serving Craig &amp; Steamboat Springs</span>
+          <span class="hero-fact-chip">DOT Physicals On-Site</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img class="mark-lg" src="public/images/logo-rounded.png" alt="" />
+        <h3>Dr. Noel &ldquo;Kirk&rdquo; McKey, DC</h3>
+        <p>Locally owned &amp; operated chiropractic care, right here in Craig &mdash; not a regional chain.</p>
+        <div class="hero-stat-grid">
+          <div class="hero-stat">
+            <div class="num">1976</div>
+            <div class="label">Practicing Since</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">Craig, CO</div>
+            <div class="label">Locally Based</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">What We Do</span>
+      <h2>Chiropractic Care &amp; Occupational Health</h2>
+      <p>Spinal care for everyday pain and injury, plus DOT compliance services for local employers.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M9 5h6M8 9h8M9 13h6M8 17h8"/></svg>
+        </div>
+        <h3>Spinal Adjustment</h3>
+        <p>Hands-on chiropractic adjustment for back pain, neck pain, and muscle spasms.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <h3>Chiropractic Therapy</h3>
+        <p>Ongoing care plans for back spasms, muscle cramps, and ordinary aches from work or daily life.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7z"/></svg>
+        </div>
+        <h3>DOT Physicals</h3>
+        <p>DOT-compliant physical exams for local drivers and employers, done right here in Craig.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+        </div>
+        <h3>Drug &amp; Alcohol Testing</h3>
+        <p>On-site testing services for local businesses that need it for compliance or hiring.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <h3>A Familiar, Local Office</h3>
+        <p>No call centers, no scheduling apps &mdash; just a local clinic that's been part of Craig for decades.</p>
+      </div>
+      <div class="service-item">
+        <div class="icon-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Same-Community Convenience</h3>
+        <p>Serving patients across the Craig&ndash;Steamboat Springs area without a long drive to a bigger clinic.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="about">
+  <div class="wrap about-grid">
+    <div class="about-visual">
+      <img src="public/images/logo-rounded.png" alt="McKey Chiropractic Clinic" />
+      <div class="doc-name">Dr. Noel &ldquo;Kirk&rdquo; McKey, DC</div>
+      <div class="doc-role">Chiropractor &middot; Craig, CO</div>
+    </div>
+    <div class="about-text">
+      <span class="credential">About the Clinic</span>
+      <h2>A local chiropractic practice, run by the same doctor for decades</h2>
+      <p>McKey Chiropractic Clinic is <strong>locally owned and operated</strong>, serving the Craig&ndash;Steamboat Springs communities with chiropractic care under Dr. Noel &ldquo;Kirk&rdquo; McKey, DC.</p>
+      <p>Alongside spinal adjustment and chiropractic therapy, the clinic also handles <strong>DOT physicals and drug &amp; alcohol testing</strong> for area businesses &mdash; a service most solo chiropractic practices don't offer.</p>
+      <p>It's the kind of local practice people rely on for years, not a rotating cast of providers at a regional chain.</p>
+      <div class="fact-row">
+        <span class="fact-chip">Locally Owned &amp; Operated</span>
+        <span class="fact-chip">Craig&ndash;Steamboat Springs Area</span>
+        <span class="fact-chip">Est. 1976</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quote-band">
+  <div class="wrap">
+    <p>&ldquo;A local chiropractor for Craig and Steamboat Springs &mdash; the kind of practice that's been here longer than most of the businesses around it.&rdquo;</p>
+    <div class="rec">McKey Chiropractic Clinic &middot; Craig, CO</div>
+  </div>
+</section>
+
+<section class="final-cta" id="contact">
+  <div class="dot-grid"></div>
+  <div class="wrap">
+    <h2>Ready to Schedule?</h2>
+    <p>Call the clinic directly, or ask our assistant below &mdash; it can answer quick questions any time, day or night.</p>
+    <div class="cta-row">
+      <a href="tel:+19708244444" class="btn">Call (970) 824-4444</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Reach Out</span>
+      <h2>Contact</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Location</h3>
+        <p>Craig, Colorado<br>Serving Craig &amp; Steamboat Springs</p>
+      </div>
+      <div class="info-card">
+        <h3>Phone</h3>
+        <p><a href="tel:+19708244444">(970) 824-4444</a></p>
+      </div>
+      <div class="info-card">
+        <h3>Email</h3>
+        <p><a href="mailto:chiroharley@gmail.com">chiroharley@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="public/images/logo-rounded.png" alt="McKey Chiropractic Clinic" />
+    <p class="biz-name">McKey Chiropractic Clinic</p>
+    <p>Craig, CO &nbsp;&middot;&nbsp; (970) 824-4444 &nbsp;&middot;&nbsp; chiroharley@gmail.com</p>
+    <p style="margin-top:10px;">Demo redesign by <a href="https://solvendix.com" target="_blank" rel="noopener noreferrer" class="solv">Solvendix</a></p>
+  </div>
+</footer>
+
+<div id="chat-launcher" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</div>
+
+<div id="chat-panel">
+  <div class="chat-head">
+    <img src="public/images/logo-rounded.png" alt="" />
+    <span>Chat with us</span>
+    <div class="dot"></div>
+    <button id="chat-close" onclick="toggleChat()" aria-label="Close chat" style="margin-left:8px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="chat-body">
+    <div class="bubble bot">Hi! Ask me anything about services, hours, or scheduling.</div>
+  </div>
+  <form id="chat-form" onsubmit="return handleSend(event)">
+    <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" />
+    <button id="chat-send" type="submit" aria-label="Send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+  const REPLY = "This chatbot will be your website's 24/7 assistant — answering your customers' questions about your business and booking appointments instantly, so you never lose a customer to a missed message.<br><br>Businesses that add a 24/7 AI chatbot usually see more booked appointments and fewer lost leads — often a noticeable jump in monthly revenue, since it catches customers your site would otherwise lose. <a href=\"https://solvendix.com/how-chatbot-works\" target=\"_blank\" rel=\"noopener noreferrer\">See how it works →</a><br><br>Curious how this would work for your business? Book a free 15-minute discovery call with Solvendix and we'll help you implement everything you need: <a href=\"https://solvendix.com/book\" target=\"_blank\" rel=\"noopener noreferrer\">solvendix.com/book</a>";
+
+  function toggleChat() {
+    document.getElementById('chat-panel').classList.toggle('open');
+  }
+
+  function handleSend(e) {
+    e.preventDefault();
+    const input = document.getElementById('chat-input');
+    const body = document.getElementById('chat-body');
+    const text = input.value.trim();
+    if (!text) return false;
+
+    const userBubble = document.createElement('div');
+    userBubble.className = 'bubble user';
+    userBubble.textContent = text;
+    body.appendChild(userBubble);
+    input.value = '';
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      const botBubble = document.createElement('div');
+      botBubble.className = 'bubble bot';
+      botBubble.innerHTML = REPLY;
+      body.appendChild(botBubble);
+      body.scrollTop = body.scrollHeight;
+    }, 500);
+
+    return false;
+  }
+</script>
+
+</body>
+</html>
