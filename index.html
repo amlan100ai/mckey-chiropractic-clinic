@@ -40,13 +40,17 @@
     background-image: radial-gradient(rgba(255,255,255,0.16) 1px, transparent 1.5px);
     background-size: 22px 22px;
   }
+  /* Hero's dot-grid starts below the fixed nav's own height, so the nav's
+     backdrop-filter blur never picks up the brighter dot pattern and bleeds
+     it into the nav bar — keeps the strip directly behind the nav flat navy. */
+  header.hero .dot-grid { top: 90px; }
 
   /* Nav */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 60;
-    background: rgba(7, 43, 84, 0.94);
-    backdrop-filter: blur(18px) saturate(105%);
-    -webkit-backdrop-filter: blur(18px) saturate(105%);
+    background: rgba(7, 43, 84, 0.97);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 78px; gap: 20px; }
